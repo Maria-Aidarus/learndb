@@ -49,6 +49,9 @@ async function performGPTAnalysis(simplifiedContent, apiKey) {
     // Placeholder code
     const inferredMediaType = ["article"];
     const extractedTopics = ["topic1", "topic2"];
+
+    //My work
+
     return { inferredMediaType, extractedTopics };
 }
 
