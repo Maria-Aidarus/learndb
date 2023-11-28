@@ -50,14 +50,13 @@ async function performGPTAnalysis(simplifiedContent, apiKey) {
     const inferredMediaType = ["article"];
     const extractedTopics = ["topic1", "topic2"];
 
-    const configuration = new Configuration({
-        apiKey: apiKey,  // Use the provided API key
-        baseURL: "https://openrouter.ai/api/v1" // Your custom API endpoint
-    });
-
-    const openai = new OpenAIApi(configuration);
-
     try {
+        const configuration = new Configuration({
+            apiKey: apiKey,  // Use the provided API key
+            baseURL: "https://openrouter.ai/api/v1" // Your custom API endpoint
+        });
+    
+        const openai = new OpenAIApi(configuration);
         // Using the specified prompt
         const prompt = `Analyze the following text and provide the media type and key topics: ${simplifiedContent}`;
 
