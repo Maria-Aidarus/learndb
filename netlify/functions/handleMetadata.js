@@ -49,31 +49,7 @@ async function performGPTAnalysis(simplifiedContent, apiKey) {
     // Placeholder code
     const inferredMediaType = ["article"];
     const extractedTopics = ["topic1", "topic2"];
-
-    try {
-        const configuration = new Configuration({
-            apiKey: apiKey,  // Use the provided API key
-            baseURL: "https://openrouter.ai/api/v1" // Your custom API endpoint
-        });
-    
-        const openai = new OpenAIApi(configuration);
-        // Using the specified prompt
-        const prompt = `Analyze the following text and provide the media type and key topics: ${simplifiedContent}`;
-
-        const completion = await openai.createCompletion({
-            model: "mistralai/mistral-7b-instruct",
-            prompt: prompt,
-            max_tokens: 150 // Adjust as needed
-        });
-
-        const responseText = completion.data.choices[0].text.trim();
-        //return responseText;
-    } catch (error) {
-        console.error('Error with OpenAI completion:', error);
-        throw error;
-    }
-    const responseText = "Article";
-    return responseText;
+    return { inferredMediaType, extractedTopics };
 }
 
 // Placeholder function to map inferred values to predefined formats and topics
@@ -118,7 +94,7 @@ export async function handler(event) {
         const simplifiedContent = simplifyContent(fetchedContent);
 
         // Step 3: Perform GPT analysis for media type and topics
-        const responseText = await performGPTAnalysis(simplifiedContent, apiKey);
+        const { inferredMediaType, extractedTopics } = await performGPTAnalysis(simplifiedContent, apiKey);
 
         // Step 4: Map inferred values to predefined formats and topics
         const { predefinedMediaType, predefinedTopics } = mapInferredValues(inferredMediaType, extractedTopics);
@@ -129,7 +105,7 @@ export async function handler(event) {
         // Return the formatted response
         return {
             statusCode: 200,
-            body: JSON.stringify(responseText),
+            body: JSON.stringify(simplifiedContent),
         };
     } catch (error) {
         console.error('Error occurred:', error.message);
