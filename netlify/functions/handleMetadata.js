@@ -67,7 +67,8 @@ async function performGPTAnalysis(simplifiedContent, apiKey) {
             max_tokens: 150 // Adjust as needed
         });
 
-        return completion.data.choices[0].text.trim();
+        const responseText = completion.data.choices[0].text.trim();
+        return responseText;
     } catch (error) {
         console.error('Error with OpenAI completion:', error);
         throw error;
@@ -118,7 +119,7 @@ export async function handler(event) {
         const simplifiedContent = simplifyContent(fetchedContent);
 
         // Step 3: Perform GPT analysis for media type and topics
-        const { inferredMediaType, extractedTopics } = await performGPTAnalysis(simplifiedContent, apiKey);
+        const responseText = await performGPTAnalysis(simplifiedContent, apiKey);
 
         // Step 4: Map inferred values to predefined formats and topics
         const { predefinedMediaType, predefinedTopics } = mapInferredValues(inferredMediaType, extractedTopics);
@@ -129,7 +130,7 @@ export async function handler(event) {
         // Return the formatted response
         return {
             statusCode: 200,
-            body: JSON.stringify(simplifiedContent),
+            body: JSON.stringify(responseText),
         };
     } catch (error) {
         console.error('Error occurred:', error.message);
