@@ -59,7 +59,7 @@ async function performGPTAnalysis(simplifiedContent, apiKey) {
 
     try {
         // Using the specified prompt
-        const prompt = `Analyze the following text and provide the media type and key topics: ${content}`;
+        const prompt = `Analyze the following text and provide the media type and key topics: ${simplifiedContent}`;
 
         const completion = await openai.createCompletion({
             model: "mistralai/mistral-7b-instruct",
