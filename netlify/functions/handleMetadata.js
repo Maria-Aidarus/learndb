@@ -50,9 +50,30 @@ async function performGPTAnalysis(simplifiedContent, apiKey) {
     const inferredMediaType = ["article"];
     const extractedTopics = ["topic1", "topic2"];
 
-    //My work
+    const configuration = new Configuration({
+        apiKey: apiKey,  // Use the provided API key
+        baseURL: "https://openrouter.ai/api/v1" // Your custom API endpoint
+    });
 
-    return { inferredMediaType, extractedTopics };
+    const openai = new OpenAIApi(configuration);
+
+    try {
+        // Using the specified prompt
+        const prompt = `Analyze the following text and provide the media type and key topics: ${content}`;
+
+        const completion = await openai.createCompletion({
+            model: "mistralai/mistral-7b-instruct",
+            prompt: prompt,
+            max_tokens: 150 // Adjust as needed
+        });
+
+        return completion.data.choices[0].text.trim();
+    } catch (error) {
+        console.error('Error with OpenAI completion:', error);
+        throw error;
+    }
+
+    //return { inferredMediaType, extractedTopics };
 }
 
 // Placeholder function to map inferred values to predefined formats and topics
