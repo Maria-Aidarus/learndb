@@ -68,13 +68,13 @@ async function performGPTAnalysis(simplifiedContent, apiKey) {
         });
 
         const responseText = completion.data.choices[0].text.trim();
-        return responseText;
+        //return responseText;
     } catch (error) {
         console.error('Error with OpenAI completion:', error);
         throw error;
     }
-
-    //return { inferredMediaType, extractedTopics };
+    const responseText = "Article";
+    return responseText;
 }
 
 // Placeholder function to map inferred values to predefined formats and topics
@@ -119,7 +119,7 @@ export async function handler(event) {
         const simplifiedContent = simplifyContent(fetchedContent);
 
         // Step 3: Perform GPT analysis for media type and topics
-        const { inferredMediaType, extractedTopics } = await performGPTAnalysis(simplifiedContent, apiKey);
+        const responseText = await performGPTAnalysis(simplifiedContent, apiKey);
 
         // Step 4: Map inferred values to predefined formats and topics
         const { predefinedMediaType, predefinedTopics } = mapInferredValues(inferredMediaType, extractedTopics);
